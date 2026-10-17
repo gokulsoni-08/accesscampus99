@@ -1,0 +1,76 @@
+/* IIMA AccessCampus – login (visual redesign). Strict CSP: self-hosted CSS/images only, no inline styles. */
+:root{--navy:#0a2a5e;--blue:#1f5fe0;--teal:#12b5a0;--ink:#0b1f44;--fg:#0f2347;--mut:#4d5f80;--card:#ffffffd9;--bd:#cfe0f5;--err:#9b1c1c;--errbg:#fdecec;--amber:#d98200}
+@media(prefers-color-scheme:dark){:root{--fg:#eef3ff;--mut:#b4c2de;--card:#0e1d3ae6;--bd:#2a4272;--err:#ffb3b3;--errbg:#3a1618}}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{margin:0;min-height:100vh;min-height:100dvh;color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5;background:#eaf3ff;
+ padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-area-inset-bottom,0) env(safe-area-inset-left,0)}
+@media(prefers-color-scheme:dark){body{background:#071327}}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(120deg,#f4f9ff 0%,#e3f0ff 45%,#dff6f1 100%)}
+@media(prefers-color-scheme:dark){body::before{background:linear-gradient(120deg,#08162e 0%,#0b2250 55%,#073b46 100%)}}
+/* campus photo along the bottom-left, faded into the page */
+body::after{content:"";position:fixed;left:0;bottom:0;width:min(62vw,900px);height:48vh;z-index:-1;background:url(/auth-assets/campus.jpg) center bottom/cover no-repeat;
+ -webkit-mask-image:linear-gradient(to top,#000 55%,transparent 100%),linear-gradient(to right,#000 55%,transparent 100%);-webkit-mask-composite:source-in;
+ mask-image:linear-gradient(to top,#000 55%,transparent 100%),linear-gradient(to right,#000 55%,transparent 100%);mask-composite:intersect;animation:drift 18s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1)}to{transform:scale(1.05)}}
+.shell{min-height:100vh;min-height:100dvh;display:grid;grid-template-columns:1.15fr 1fr;align-items:center;max-width:1500px;margin:0 auto}
+.brandpane{padding:40px max(32px,5vw) 40px max(32px,6vw);display:flex;flex-direction:column;gap:14px;animation:rise .7s ease both}
+.brandrow{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.logo{color:var(--navy);display:flex;flex-direction:column;align-items:center;padding-right:22px;border-right:2px solid var(--bd)}
+@media(prefers-color-scheme:dark){.logo{color:#cfe0ff}}
+.logo-word{font-weight:900;letter-spacing:.06em;font-size:1.05rem;margin-top:2px}
+.brandname{margin:0;font-size:1.9rem;font-weight:800;color:var(--navy);line-height:1.1}.brandname span,.brandpane h1 span{color:var(--blue)}
+@media(prefers-color-scheme:dark){.brandname{color:#fff}.brandname span,.brandpane h1 span{color:#6fa3ff}}
+.tagline{margin:4px 0 0;color:var(--mut)}
+.script{margin:0;font:italic 600 1.15rem "Segoe Script","Bradley Hand","Snell Roundhand","Brush Script MT",cursive;color:var(--navy);transform:rotate(-6deg);margin-left:auto;max-width:11rem;line-height:1.2}
+.script span{color:#d6336c}
+@media(prefers-color-scheme:dark){.script{color:#cfe0ff}}
+.bar{display:block;width:76px;height:5px;border-radius:9px;background:linear-gradient(90deg,var(--blue),var(--teal));margin-top:10px}
+.brandpane h1{margin:6px 0 0;font-size:clamp(2.2rem,4.2vw,3.2rem);line-height:1.08;font-weight:900;color:var(--navy);letter-spacing:-.01em}
+@media(prefers-color-scheme:dark){.brandpane h1{color:#fff}}
+.lead{margin:0;font-size:1.1rem;color:var(--fg);max-width:34rem}
+.points{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px;max-width:30rem}
+.points li{display:flex;align-items:center;gap:14px;padding:8px 18px 8px 8px;border-radius:99px;background:#ffffffb8;border:1px solid #ffffffd0;backdrop-filter:blur(6px);box-shadow:0 6px 22px #0a2a5e14;transition:transform .25s ease,box-shadow .25s ease;animation:rise .7s ease both}
+@media(prefers-color-scheme:dark){.points li{background:#10224499;border-color:#ffffff18}}
+.points li:nth-child(1){animation-delay:.15s}.points li:nth-child(2){animation-delay:.25s}.points li:nth-child(3){animation-delay:.35s}
+.points li:hover{transform:translateX(6px);box-shadow:0 10px 28px #0a2a5e24}
+.points b{display:block;font-size:.98rem}.points small{display:block;color:var(--mut);font-size:.84rem;line-height:1.3}
+.pic{flex:0 0 52px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.pic.blue{background:linear-gradient(135deg,#2f6df0,#1a46b8)}.pic.green{background:linear-gradient(135deg,#19c29a,#0a8f78)}.pic.violet{background:linear-gradient(135deg,#7c5ce6,#5233b3)}
+.card{position:relative;justify-self:center;width:calc(100% - 48px);max-width:500px;margin:24px;padding:34px 34px 28px;background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid #ffffff99;border-radius:30px;box-shadow:0 24px 70px #0a2a5e2e,inset 0 1px 0 #ffffffaa;animation:rise .8s .1s ease both;overflow:hidden}
+@media(prefers-color-scheme:dark){.card{border-color:#ffffff1f}}
+.card::before{content:"";position:absolute;right:-60px;top:-60px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,#12b5a066,transparent 70%);pointer-events:none}
+.crest{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--navy);margin-bottom:6px}.crest i{flex:1;max-width:56px;height:2px;background:var(--teal);border-radius:2px}
+@media(prefers-color-scheme:dark){.crest{color:#cfe0ff}}
+.card h2{margin:0 0 6px;font-size:2.1rem;line-height:1.1;font-weight:900;text-align:center;color:var(--navy)}.card h2 span{color:var(--blue)}
+@media(prefers-color-scheme:dark){.card h2{color:#fff}.card h2 span{color:#6fa3ff}}
+.sub{margin:0 0 22px;color:var(--mut);text-align:center;font-size:1.05rem}
+.gbtn{position:relative;display:flex;align-items:center;justify-content:center;gap:14px;width:100%;min-height:62px;padding:10px 22px;border-radius:99px;border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,var(--blue),var(--teal)) border-box;color:#10244b;font:700 1.1rem system-ui,sans-serif;text-decoration:none;cursor:pointer;box-shadow:0 10px 26px #1f5fe033;transition:transform .2s ease,box-shadow .2s ease}
+.gbtn .arr{position:absolute;right:22px;transition:transform .2s ease}
+.gbtn:hover{transform:translateY(-2px);box-shadow:0 16px 34px #1f5fe04d}.gbtn:hover .arr{transform:translateX(5px)}.gbtn:active{transform:scale(.985)}
+.gbtn:focus-visible{outline:4px solid var(--amber);outline-offset:3px}
+.gbtn[aria-busy=true]{opacity:.6;pointer-events:none}
+.msg{margin:0 0 16px;padding:12px 14px;border-radius:14px;background:var(--errbg);color:var(--err);border-left:6px solid var(--err);font-size:.95rem}
+.msg.info{background:transparent;color:var(--fg);border-color:var(--blue)}
+.divider{display:flex;align-items:center;gap:10px;margin:22px 0 14px;color:var(--navy);font-size:.92rem;font-weight:700}
+@media(prefers-color-scheme:dark){.divider{color:#cfe0ff}}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--bd)}
+.fine{display:flex;gap:12px;align-items:flex-start;margin:10px 0 0;padding:14px 16px;border-radius:16px;background:#e9f2ffb3;color:var(--mut);font-size:.88rem;line-height:1.45}
+@media(prefers-color-scheme:dark){.fine{background:#ffffff10}}
+.fine svg{flex:0 0 20px;margin-top:2px;color:var(--blue)}.fine b{color:var(--navy)}
+@media(prefers-color-scheme:dark){.fine b{color:#fff}}
+.fine.small{font-size:.82rem;padding:10px 16px;align-items:center}.fine.small svg{margin:0}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr;align-items:start}
+  .brandpane{padding:26px 22px 8px}
+  .brandrow{gap:14px}.script{display:none}
+  .brandname{font-size:1.45rem}.logo svg{width:48px;height:48px}.logo{padding-right:14px}
+  .brandpane h1,.bar,.points small{display:none}
+  .lead{font-size:1rem}
+  .points{margin-top:4px;gap:8px}.points li{padding:6px 14px 6px 6px}.pic{flex-basis:42px;width:42px;height:42px}.pic svg{width:22px;height:22px}
+  .card{width:calc(100% - 28px);margin:10px 14px 28px;padding:26px 20px 22px;border-radius:26px}
+  .card h2{font-size:1.8rem}
+  body::after{width:100vw;height:34vh;opacity:.55}
+}
+@media(prefers-reduced-motion:reduce){*,body::after{transition:none!important;animation:none!important}}
