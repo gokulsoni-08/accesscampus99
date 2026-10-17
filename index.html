@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#06142e">
+<title>IIMA AccessCampus – Accessibility Guide (student prototype)</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="vendor/maplibre/maplibre-gl.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="logo" aria-hidden="true"><svg viewBox="0 0 64 64" width="44" height="44" focusable="false"><path d="M8 34a24 24 0 0 1 48 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M16 34a16 16 0 0 1 32 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M24 34a8 8 0 0 1 16 0" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M32 8v10M10 34h44" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="22" r="2.4" fill="currentColor"/></svg><span>IIMA</span></div>
+  <div class="brand"><b>Access<span>Campus</span></b><small class="tag-line">Accessible. Inclusive. For Everyone.</small><small class="proto">IIM Ahmedabad · student prototype, not an official IIMA app</small></div>
+  <div class="tools" role="group" aria-label="Accessibility display options">
+  <button class="ib" id="btnAdown" aria-label="Smaller text">A−</button>
+  <button class="ib" id="btnHC" aria-pressed="false" aria-label="High contrast">HC</button>
+  <button class="ib" id="btnAup" aria-label="Larger text">A+</button>
+  </div>
+  <div class="acct"><button class="ib acct-btn" id="btnAcct" aria-haspopup="true" aria-expanded="false" aria-controls="acctMenu" aria-label="Account menu" hidden></button><div id="acctMenu" class="acct-menu" role="group" aria-label="Account" hidden></div></div>
+</header>
+
+<main id="main">
+<!-- HOME -->
+<section class="scr on" id="s-home" aria-label="Home">
+  <div class="herobanner">
+    <div class="hero" id="hero"></div>
+    <div class="herotxt">
+      <span class="pill">IIMA</span>
+      <h1>Find your way around IIMA</h1>
+      <p><b>Explore IIM Ahmedabad with confidence.</b></p>
+      <p class="sub2">Step-free routes, ramps, lifts, accessible toilets and emergency help — all in one place.</p>
+    </div>
+    <p class="script" aria-hidden="true">Same Campus<br>Same Dreams<br>More Access <span>♡</span></p>
+  </div>
+  <form class="card srch" id="homeSearch" role="search">
+    <label for="hq">Search facilities and places</label>
+    <div class="row" style="margin:0"><input type="search" id="hq" placeholder="e.g. lift, toilet, library, parking" autocomplete="off" enterkeyhint="search"><button class="btn" type="submit">Search</button></div>
+  </form>
+  <div class="quick" aria-label="Quick access">
+    <button class="chip" data-quick="ramp">♿ Ramps</button><button class="chip" data-quick="lift">🛗 Lifts</button><button class="chip" data-quick="toilet">🚻 Accessible toilets</button><button class="chip" data-quick="parking">🅿️ Parking</button><button class="chip" data-quick="nearby">📍 Nearby facilities</button>
+  </div>
+  <div class="actions">
+    <button class="big c-route" data-go="route"><b>♿</b>Plan a route<small>Get step-free, accessible routes across campus</small></button>
+    <button class="big c-map" data-go="map"><b>🗺️</b>Campus maps<small>Explore interactive 2D and 3D campus maps</small></button>
+    <button class="big c-feat" data-go="features"><b>🛗</b>Ramps, lifts, toilets<small>Find accessible facilities near you</small></button>
+    <button class="big c-tour" data-go="tour"><b>🎥</b>360° virtual tour (3D)<small>Explore the campus in 360°</small></button>
+    <button class="big c-rep" data-go="report"><b>📷</b>Report a problem<small>Help us improve accessibility</small></button>
+    <button class="big danger c-sos" data-go="help"><b>🆘</b>Emergency help<small>Call 112 / 108 and share your location</small></button>
+  </div>
+  <div class="card" id="officialAccess">
+    <h2>What IIMA says about accessibility</h2>
+    <p>IIMA states that it aims to provide an enabling environment: <b>ramps and railings</b>, <b>high-power lighting and high-contrast signage</b> for students with low vision, and <b>elevators</b> that help differently-abled students use the underpass connecting the heritage and new campuses.</p>
+    <p class="src">Source: <a href="#" data-link="access" target="_blank" rel="noopener">iima.ac.in – Community Services</a></p>
+  </div>
+  <div class="note warn"><b>Data status:</b> IIMA does not publish a location-level list of ramps, lifts, accessible toilets or parking. Everything below those official statements is marked <span class="tag tbv">Unverified</span> until someone checks it on site. <button class="lnk" data-go="about">How data is labelled</button></div>
+  <div class="card"><h2>Your local data</h2><div id="stats" class="chips"></div></div>
+  <div class="valuestrip" aria-label="About AccessCampus">
+    <span><i aria-hidden="true">🛡️</i><b>Inclusive Campus</b><small>Equal access for all</small></span>
+    <span><i aria-hidden="true">👥</i><b>Student Led</b><small>Student prototype, not an official IIMA app</small></span>
+    <span><i aria-hidden="true">💙</i><b>Better Tomorrow</b><small>Together we build inclusion</small></span>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="scr" id="s-map" aria-label="Map">
+  <h1>Campus map</h1>
+  <div class="tabs">
+    <button class="chip" id="tabOff" aria-pressed="true">Official map (2D)</button>
+    <button class="chip" id="tabGps" aria-pressed="false">GPS map (OpenStreetMap)</button>
+  </div>
+
+  <div id="pOff">
+    <p class="src">This is IIMA's own campus map, loaded live from iima.ac.in. Pinch or use + / − to zoom, drag to pan.</p>
+    <div class="chips" id="sideChips"></div>
+    <div class="offwrap">
+      <div id="offView" aria-label="Official IIMA campus map" tabindex="0">
+        <div id="offStage"><img id="offImg" alt="Official IIMA campus map" referrerpolicy="no-referrer"><div id="offPins"></div></div>
+        <div id="offFb" hidden><b>The official map image could not load.</b><br>Check your connection, or open it on <a id="offFbLink" target="_blank" rel="noopener">iima.ac.in</a>.</div>
+      </div>
+      <div class="zoom"><button class="ib" id="offIn" aria-label="Zoom in">＋</button><button class="ib" id="offOut" aria-label="Zoom out">−</button><button class="ib" id="offReset" aria-label="Reset view">⤢</button></div>
+      <div id="offPick" hidden></div>
+    </div>
+    <p class="src" id="offSrc" aria-live="polite"></p>
+    <div class="row"><a class="btn alt" id="offFull" target="_blank" rel="noopener">Open full-size official map</a><a class="btn alt" id="offPage" target="_blank" rel="noopener">IIMA campus-map page</a></div>
+    <div class="card"><h2>Pin a place on the official map</h2>
+      <p class="src">IIMA's map is a picture, so it has no built-in coordinates. Pin places yourself; pins are saved on this device and marked <span class="tag tbv">your placement</span>.</p>
+      <label for="offItem">Place or feature</label><select id="offItem"></select>
+      <div class="row"><button class="btn" id="offPinBtn">📌 Pin on this map</button><button class="btn alt" id="offUnpin">Remove pin</button></div>
+    </div>
+  </div>
+
+  <div id="pGps" hidden>
+    <p class="src"><b>Not official</b> – OpenStreetMap / Esri / OSM 3D. Positions are approximate. <a href="#" data-go="about">Details</a></p>
+    <div class="bar">
+      <button class="chip" id="mLocate">📍 My location</button>
+      <button class="chip" id="mSat" aria-pressed="false">🛰️ Satellite</button>
+      <button class="chip" id="m3d" aria-pressed="false">🏙️ 3D view</button>
+      <button class="chip" id="mSurvey" aria-pressed="false">🧭 Survey mode</button>
+      <button class="chip" id="mFit">⤢ Whole campus</button>
+    </div>
+    <div class="chips" id="mFilters"></div>
+    <div id="mapwrap"><div id="map" role="application" aria-label="Interactive 2D map of IIM Ahmedabad (OpenStreetMap)"></div>
+      <div id="map3d" role="application" aria-label="3D tilted map of IIM Ahmedabad" hidden></div>
+      <div id="map3dfb" hidden><b>The 3D view could not load.</b> It needs an internet connection (map data from OpenFreeMap / Esri). Use the 2D map or the official 360° tour instead.</div>
+      <div id="mapfb" hidden>
+        <b>Map tiles could not load.</b> Check your connection, then <button class="lnk" id="mRetry">retry</button>. Use the official map instead:
+        <div id="mapfbImgs"></div>
+      </div>
+      <div id="mapPick" hidden>Tap the map to choose the location…</div>
+    </div>
+    <div class="note"><span class="tag tbv">Approximate</span> markers have amber dashed rings. 2D, satellite and 3D share the same markers and your GPS dot. 3D buildings come from OpenStreetMap, not IIMA (IIMA publishes no 3D model). Map data © OpenStreetMap contributors.</div>
+    <div class="card" id="gpsInfo" hidden></div>
+  </div>
+</section>
+
+<!-- ROUTE -->
+<section class="scr" id="s-route" aria-label="Route planner">
+  <h1>Route planner</h1>
+  <div class="card">
+    <h2>Choose your entrance</h2>
+    <p class="src">Entrance positions are approximate until verified on site.</p>
+    <div class="chips" id="entr"></div>
+    <label for="rFrom">From</label><select id="rFrom"></select>
+    <label for="rTo">To</label><select id="rTo"></select>
+    <div class="row"><button class="btn" id="rGo">Find walking route</button><button class="btn alt" id="rSwap">⇅ Swap</button></div>
+  </div>
+  <div class="card" id="rOut">Choose a start and a destination.</div>
+  <div class="card">
+    <h2>Record a step-free path</h2>
+    <p>Walk a route you know is step-free (ramps / lifts only) and the app saves the GPS trail on this device. Recorded paths show as <span class="tag ok">green</span> on the map.</p>
+    <div class="row"><button class="btn" id="pRec">⏺ Start recording</button><button class="btn alt" id="pStop" disabled>⏹ Stop &amp; save</button></div>
+    <p id="pStat" aria-live="polite"></p>
+    <ul class="lst" id="pList"></ul>
+  </div>
+  <div class="note warn">Walking routes come from the free public OSRM foot-routing service and <b>do not know about steps or ramps</b>. They are shown as <b>amber dashed</b> lines and are never described as wheelchair-safe. IIMA states that the underpass has elevators, so routes between the two campuses are sent via the underpass.</div>
+</section>
+
+<!-- FEATURES -->
+<section class="scr" id="s-features" aria-label="Accessibility features">
+  <h1>Ramps, lifts, toilets, parking</h1>
+  <label for="fSearch">Search facilities and places</label>
+  <input type="search" id="fSearch" placeholder="e.g. lift, library, toilet" autocomplete="off">
+  <div class="card" id="nearCard">
+    <h2>Nearby facilities</h2>
+    <label for="nRef">Measure from</label><select id="nRef"></select>
+    <label for="nRad">Within</label><select id="nRad"><option value="150">150 m</option><option value="300" selected>300 m</option><option value="600">600 m</option><option value="1000">1 km</option></select>
+    <div class="row"><button class="btn" id="nGo">Show nearby facilities</button></div>
+    <div id="nOut" aria-live="polite"></div>
+  </div>
+  <div class="chips" id="fFilters"></div>
+  <div class="chips" id="fStatus"></div>
+  <div class="card"><ul class="lst" id="fList"></ul></div>
+  <div id="fPlaces"></div>
+  <button class="btn" id="fAdd">＋ Add a feature I found</button>
+</section>
+
+<!-- TOUR -->
+<section class="scr" id="s-tour" aria-label="360 degree virtual tour">
+  <h1>360° virtual tour (3D)</h1>
+  <p>This is IIMA's own <b>360° interactive virtual tour</b> (iima.ac.in/v-tour/), shown here directly from the official site. IIMA does not publish a separate 3D map model on the pages used for this prototype; the 360° tour is its immersive view of the campus.</p>
+  <div class="stack"><a class="btn" id="tOpen" target="_blank" rel="noopener">🎥 Open the tour full-screen (recommended on phones)</a></div>
+  <div class="tourbox"><iframe id="tFrame" title="IIMA official 360 degree virtual tour" allowfullscreen allow="fullscreen; accelerometer; gyroscope; xr-spatial-tracking" referrerpolicy="no-referrer"></iframe></div>
+  <p class="src">If the frame is blank, IIMA's site is not allowing it to be shown inside other pages – use the button above, which always works. Also at <a data-link="tourPage" href="#" target="_blank" rel="noopener">iima.ac.in/…/about-iima/virtual-tour</a>.</p>
+  <h2>Official campus photos</h2>
+  <div id="gal"></div>
+  <p class="src">Photos are loaded live from iima.ac.in and belong to IIMA. Headings are the section names on <a data-link="architecture" href="#" target="_blank" rel="noopener">Campus Architecture</a> and <a data-link="campus" href="#" target="_blank" rel="noopener">Campus</a>.</p>
+</section>
+
+<!-- REPORT -->
+<section class="scr" id="s-report" aria-label="Report a problem">
+  <h1>Report an accessibility problem</h1>
+  <div class="card">
+    <label for="rpCat">What is the problem?</label><select id="rpCat"></select>
+    <label for="rpLoc">Where?</label><select id="rpLoc"></select>
+    <div class="row"><button class="btn alt" id="rpGps">📍 Use my GPS</button><button class="btn alt" id="rpPick">🖱️ Pick on map</button></div>
+    <p id="rpLl" class="src" aria-live="polite"></p>
+    <label for="rpDesc">Describe it</label><textarea id="rpDesc" rows="3" maxlength="600" placeholder="e.g. The lift door does not close fully"></textarea>
+    <label for="rpPhoto">Photo</label><input type="file" id="rpPhoto" accept="image/*">
+    <img id="rpPrev" alt="Selected photo preview" hidden class="prev">
+    <div class="row" style="margin-top:12px"><button class="btn" id="rpSub">Submit report</button></div>
+  </div>
+  <div id="rpDone" class="note" role="status" aria-live="polite" hidden></div>
+  <div class="note"><b>How reports work:</b> your report is saved securely and sent to the AccessCampus administrators. It shows <b>Under Review</b> until an administrator updates it. Reports cannot be edited or deleted after sending. This is a student prototype – not an official IIMA channel.</div>
+  <h2>My reports</h2><div id="rpList"></div>
+  <div class="row"><button class="btn alt" id="rpExport">⬇ Export reports (JSON)</button></div>
+</section>
+
+<!-- HELP -->
+<section class="scr" id="s-help" aria-label="Emergency help">
+  <h1>Emergency help</h1>
+  <div class="stack">
+    <a class="btn danger" href="tel:112">📞 Call 112 – national emergency number</a>
+    <a class="btn danger" href="tel:108">🚑 Call 108 – ambulance</a>
+    <a class="btn alt" id="hSec" target="_blank" rel="noopener">🛡️ IIMA Security Department (official page)</a>
+  </div>
+  <div class="card"><h2>Send my location</h2>
+    <p id="hGps" aria-live="polite">Location not read yet.</p>
+    <div class="row"><button class="btn" id="hLoc">📍 Get my location</button></div>
+    <textarea id="hMsg" rows="3" aria-label="Help message" placeholder="Your message appears here"></textarea>
+    <div class="row"><button class="btn alt" id="hShare">Share…</button><a class="btn alt" id="hSms">SMS</a><a class="btn alt" id="hWa" target="_blank" rel="noopener">WhatsApp</a><button class="btn alt" id="hCopy">Copy</button></div>
+  </div>
+  <div class="note"><b>Campus numbers:</b> IIMA's public pages used for this prototype list an on-campus dispensary with full-time doctors, but no emergency phone numbers. None are invented here. Add verified numbers from IIMA Security before real use.</div>
+</section>
+
+<!-- ABOUT -->
+<section class="scr" id="s-about" aria-label="About the data">
+  <h1>How data is labelled</h1>
+  <div class="card"><ul class="lst">
+    <li><span class="tag ok">Official statement</span><span class="tx">Stated on an iima.ac.in page. Location may still be approximate or unpublished.</span></li>
+    <li><span class="tag tbv">Unverified – to verify</span><span class="tx">A plausible feature at a named building. IIMA has not confirmed it. Check on site, then mark it present or not found.</span></li>
+    <li><span class="tag you">Confirmed by you / Added by you</span><span class="tx">Your own check, saved only on this device.</span></li>
+  </ul></div>
+  <div class="card"><h2>Sources</h2><ul class="lst small">
+    <li><a data-link="campus" href="#" target="_blank" rel="noopener">IIMA – Campus</a></li>
+    <li><a data-link="map" href="#" target="_blank" rel="noopener">IIMA – Campus map (official 2D map images)</a></li>
+    <li><a data-link="architecture" href="#" target="_blank" rel="noopener">IIMA – Campus Architecture (official photos, auditoriums)</a></li>
+    <li><a data-link="access" href="#" target="_blank" rel="noopener">IIMA – Accessibility for the Differently Abled</a></li>
+    <li><a data-link="tour" href="#" target="_blank" rel="noopener">IIMA – 360° Virtual Tour (iima.ac.in/v-tour/)</a></li>
+    <li><b>Not from IIMA:</b> campus centre coordinate (Wikipedia), GPS-map tiles (OpenStreetMap contributors), satellite (Esri World Imagery), walking routes (OSRM public demo server). These are used only for GPS and routing and are labelled as unofficial in the app.</li></ul></div>
+  <div class="card"><h2>Your data on this device</h2>
+    <div class="row"><button class="btn alt" id="aExport">⬇ Export everything (JSON)</button><button class="btn alt" id="aPos">↺ Reset moved markers</button><button class="btn alt" id="aReset">🗑 Delete my local data</button></div></div>
+</section>
+</main>
+
+<div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle" hidden>
+  <div class="sheetbox"><button class="ib x" id="shClose" aria-label="Close">✕</button><div id="shBody"></div></div>
+</div>
+
+<nav class="bnav" aria-label="Main">
+  <button data-go="home" class="on"><b>🏠</b>Home</button>
+  <button data-go="map"><b>🗺️</b>Map</button>
+  <button data-go="tour"><b>🎥</b>360° Tour</button>
+  <button data-go="route"><b>♿</b>Routes</button>
+  <button data-go="features"><b>🛗</b>Ramps &amp; Lifts</button>
+  <button data-go="report"><b>📷</b><span>Report<span class="xl"> a Problem</span></span></button>
+  <button data-go="help" class="sos"><b>🆘</b>Help</button>
+</nav>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="vendor/maplibre/maplibre-gl.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>
